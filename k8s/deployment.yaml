@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: graphql-demo
-        image: saivicky321/java-2-tier-app:graphql-demo-v1
+        image: saivicky321/java-2-tier-app:graphql-demo-micrometer-otel-metrics-v1
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
