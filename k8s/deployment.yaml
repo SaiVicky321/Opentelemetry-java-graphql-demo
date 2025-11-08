@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: graphql-demo-service
+  namespace: graphql-demo
+  labels:
+    app: graphql-demo-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: graphql-demo-service
+  template:
+    metadata:
+      labels:
+        app: graphql-demo-service
+      annotations:
+        instrumentation.opentelemetry.io/inject-java: "opentelemetry-operator-system/java-graphql-instrumentation"
+    spec:
+      containers:
+      - name: graphql-demo
+        image: saivicky321/java-2-tier-app:graphql-demo-v1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+        env:
+        - name: HOST_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+        - name: OTEL_RESOURCE_ATTRIBUTES
+          value: "service.name=graphql-service-demo,team.name=java, team.owner=sai"
+        - name: OTEL_EXPORTER_OTLP_ENDPOINT
+          value: "http://$(HOST_IP):4318"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
