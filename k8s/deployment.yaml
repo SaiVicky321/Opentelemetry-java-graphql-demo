@@ -15,11 +15,11 @@ spec:
       labels:
         app: graphql-demo-service
       annotations:
-        instrumentation.opentelemetry.io/inject-java: "opentelemetry-operator-system/java-graphql-instrumentation"
+        instrumentation.opentelemetry.io/inject-java: "observability/java-graphql-instrumentation"
     spec:
       containers:
       - name: graphql-demo
-        image: saivicky321/java-2-tier-app:graphql-demo-micrometer-otel-metrics-v1
+        image: us-central1-docker.pkg.dev/teak-proton-472112-q0/docker/graphql-demo-micrometer-otel-metrics:latest
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
